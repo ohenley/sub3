@@ -1,0 +1,62 @@
+cabal-version:      3.0
+name:               sub3
+version:            0.1.0
+synopsis:           Substrate tile, incremental rebuild: the memory-access toolkit seed
+license:            NONE
+author:             Olivier Henley
+maintainer:         olivier.henley@gmail.com
+build-type:         Simple
+
+common shared
+  default-language: Haskell2010
+  ghc-options:
+    -Wall
+    -fplugin GHC.TypeLits.Extra.Solver
+    -fplugin GHC.TypeLits.KnownNat.Solver
+    -fplugin GHC.TypeLits.Normalise
+    -fexpose-all-unfoldings
+    -fno-worker-wrapper
+  default-extensions:
+    DataKinds
+    DeriveAnyClass
+    DeriveGeneric
+    FlexibleContexts
+    FlexibleInstances
+    ScopedTypeVariables
+    TypeApplications
+    TypeFamilies
+    TypeOperators
+  build-depends:
+      base                     >= 4.16 && < 5
+    , clash-prelude            >= 1.8  && < 1.10
+    , ghc-typelits-extra
+    , ghc-typelits-knownnat
+    , ghc-typelits-natnormalise
+
+library
+  import:          shared
+  hs-source-dirs:  src
+  exposed-modules:
+    Substrate.Sub3.Memory.Backend
+    Substrate.Sub3.Memory.Capture
+    Substrate.Sub3.Memory.Delay
+    Substrate.Sub3.Memory.Port
+    Substrate.Sub3.Memory.Protocol
+    Substrate.Sub3.Memory.Router
+    Substrate.Sub3.Top
+
+test-suite toolkit-test
+  import:          shared
+  type:            exitcode-stdio-1.0
+  hs-source-dirs:  test
+  main-is:         Main.hs
+  other-modules:
+    CaptureSpec
+    DelaySpec
+    Harness
+    PortSpec
+    RouterSpec
+  build-depends:
+      sub3
+    , hspec >= 2.7
+  ghc-options:     -threaded

@@ -1,0 +1,7 @@
+dist-newstyle/
+verilog/
+vhdl/
+*.o
+*.hi
+*.manifest
+.ghc.environment.*
